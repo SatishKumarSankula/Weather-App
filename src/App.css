@@ -38,21 +38,23 @@
 }
 
 
-
-.card{
-  max-width: 50%;
+.Card{
+  max-width: 60%;
   padding: 70px;
   border-radius: 20px;
+  background-color: bisque;
   box-shadow: 5px 5px 5px gray;
 }
+
 
 input[type="submit"]{
   background-color: lightblue;
   border-radius: 3px;
-  padding: 5px;
+  padding:5px;
 }
 
 input[type="text"]{
   border-radius: 3px;
   padding: 5px;
+  margin-bottom: 10px;
 }

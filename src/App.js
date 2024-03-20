@@ -1,43 +1,41 @@
 import React from 'react'
 import { useState } from 'react'
-import "./App.css"
+import ProductCard from './ProductCard'
 
 function App() {
 
-let [city,setCity] = useState("")
+  let [search,setSearch] = useState("")
 
-let [result, setResult] = useState("")
+  function changeHandler(event){
+    setSearch(event.target.value)
+  }
 
-function changeHandler(event){
-  setCity(event.target.value)
-}
+  let [products,productsList] = useState([])
 
-async function submitHandler(event){
-  event.preventDefault()
-  let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=d885aa1d783fd13a55050afeef620fcb`)
-  let resTemp = await res.json()
-  console.log(resTemp.main.temp)
-  let kelvin = resTemp.main.temp
-  let celsius = kelvin - 273.15
-  setResult("Temparature at " + city + "\n" + Math.round(celsius)+ "°C")
-  setCity("")
+  let YOUR_APP_ID = "6c04373a"
+  let YOUR_APP_KEY = "11062341ddeace5411a00c76db64b56d"
+  
 
-}
+  async function submitHandler(event){
+    event.preventDefault()
+    console.log(search)
+    let res = await fetch(`https://api.edamam.com/search?q=${search}&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=12&calories=591-722&health=alcohol-free`)
+    let resPro = await res.json()
+    productsList(resPro.hits)
+    console.log(resPro.hits)
+  }
 
   return (
     <div>
       <center>
-        <div className='card'>
-            <div className='card-body'>
-              <h2 className='card-title'>Weather App</h2>
-              <form onSubmit={submitHandler}>
-                <input type='text' name='city' value={city} onChange={changeHandler}/>
-                <br/><br/>
-                <input type='submit' value="Get Temparature" />
-                <h2>{result}</h2>
-              </form>
-            </div>
-        </div>
+        <h1>Food Recipe App</h1>
+        <form  onSubmit={submitHandler}>
+          <input type="text" value={search} onChange={changeHandler}/>
+          <br/><br/>
+          <input type="submit" className='btn btn-primary' name="Search"/>
+        </form>
+        {products.length>1 ? <ProductCard data={products}></ProductCard> : null}
+        
       </center>
     </div>
   )
